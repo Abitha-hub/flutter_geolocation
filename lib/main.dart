@@ -30,7 +30,7 @@ class _GeoMapScreenState extends State<GeoMapScreen> {
   GoogleMapController? _mapController;
   LatLng? _currentPosition;
   bool _loading = true;
-
+  MapType _currentMapType = MapType.satellite;
   @override
   void initState() {
     super.initState();
@@ -78,11 +78,19 @@ class _GeoMapScreenState extends State<GeoMapScreen> {
                 target: _currentPosition!,
                 zoom: 16,
               ),
+               // ✅ Satellite Map
+              mapType: _currentMapType,
             ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _fetchLocation,
-        child: const Icon(Icons.my_location),
-      ),
+    floatingActionButton: FloatingActionButton(
+  onPressed: () {
+    setState(() {
+      _currentMapType = _currentMapType == MapType.normal
+          ? MapType.satellite
+          : MapType.normal;
+    });
+  },
+  child: const Icon(Icons.layers),
+),
     );
   }
 }
